@@ -6,7 +6,7 @@ import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class Main {
+class day3 {
   static ArrayList<String> data= new ArrayList<>();  //Hold string from text file
   static ArrayList<Character> letters= new ArrayList<>();  //Hold string from text file
   static ArrayList<Character> letters3= new ArrayList<>();  //Hold string from text file

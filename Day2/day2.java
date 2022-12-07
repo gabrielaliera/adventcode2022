@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-class Main {
+class day2 {
   static ArrayList<String> data= new ArrayList<>();  //Hold string from text file
   static ArrayList<Integer>wins = new ArrayList<>();
   static ArrayList<Integer>wins2 = new ArrayList<>();
