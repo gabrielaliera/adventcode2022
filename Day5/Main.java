@@ -3,12 +3,16 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
+import java.util.LinkedList;
+import java.lang.StringBuilder;
 
 class Main {
 
   static ArrayList<Integer> data= new ArrayList<>();  //Hold string from text file
-  public static Stack<Character> stack1 = new Stack<>();
-  public static Stack<Character> stack2 = new Stack<>();
+  static Stack<Character> stack1 = new Stack<>();
+  static Stack<Character> stack2 = new Stack<>();
   static Stack<Character> stack3 = new Stack<>();
   static Stack<Character> stack4 = new Stack<>();
   static Stack<Character> stack5 = new Stack<>();
@@ -24,6 +28,8 @@ class Main {
   static char W  = 'W'; static char M = 'M'; static char T = 'T';  static char Q = 'Q';
   static char L  = 'L'; static char P = 'P'; static char F = 'F';  static char Z = 'Z';
   static char D  = 'D';
+
+  static HashMap<Integer, Stack<Character>> map = new HashMap<>();
   
   public static void printStack(Stack<Character> s){
    //System.out.print(s.getClass());
@@ -38,7 +44,7 @@ class Main {
     stack1.push(G);
     stack1.push(S);
     stack1.push(C);
-    printStack(stack1);
+   // printStack(stack1);
 
     stack2.push(T);
     stack2.push(M);
@@ -48,12 +54,12 @@ class Main {
     stack2.push(N);
     stack2.push(V);
     stack2.push(G);
-    printStack(stack2);
+   // printStack(stack2);
     
     stack3.push(M);
     stack3.push(Q);
     stack3.push(S);
-    printStack(stack3);
+  //  printStack(stack3);
 
     stack4.push(B);
     stack4.push(S);
@@ -62,7 +68,7 @@ class Main {
     stack4.push(W);
     stack4.push(N);
     stack4.push(M);
-    printStack(stack4);
+  //  printStack(stack4);
     
     stack5.push(J);
     stack5.push(Z);
@@ -72,7 +78,7 @@ class Main {
     stack5.push(G);
     stack5.push(W);
     stack5.push(P);
-    printStack(stack5);
+   // printStack(stack5);
     
     stack6.push(C);
     stack6.push(T);
@@ -81,7 +87,7 @@ class Main {
     stack6.push(Q);
     stack6.push(H);
     stack6.push(S);
-    printStack(stack6);
+   // printStack(stack6);
 
     
     stack7.push(T);
@@ -89,8 +95,8 @@ class Main {
     stack7.push(P);
     stack7.push(B);
     stack7.push(W);
-    printStack(stack7);
-    
+   // printStack(stack7);
+  
     stack8.push(G);
     stack8.push(D);
     stack8.push(C);
@@ -99,7 +105,7 @@ class Main {
     stack8.push(T);
     stack8.push(Q);
     stack8.push(M);
-    printStack(stack8);
+   // printStack(stack8);
     
     stack9.push(N);
     stack9.push(S);
@@ -107,7 +113,7 @@ class Main {
     stack9.push(B);
     stack9.push(P);
     stack9.push(F);
-    printStack(stack9);
+    //printStack(stack9);
   }
 
  public static void readFile(String fileName) {
@@ -145,118 +151,76 @@ class Main {
       int move = data.get(i);
       int fromStack = data.get(i+1);
       int toStack = data.get(i+2);
-      System.out.println(move+" "+fromStack+" "+toStack);
-
-      findFromStack(move,fromStack,toStack);
-     //  Stack<Character> stackA = stack1;
-     //  //printStack(findStack(fromStack));
-     //  //stackTo = findStack(toStack);
-     // printStack(stackA);
-     // // printStack(stackTo);
-     //  for(int j=0; j<move;j++){
-        
-     //  }
-
       
+     // System.out.println(move+" "+fromStack+" "+toStack);
+
+     // System.out.println(map.get(toStack).getClass());
+      for(int j=0; j<move;j++){
+        map.get(toStack).push(map.get(fromStack).pop());
+      }  
     }
-      
-    
   }
 
-  public static void findFromStack(int move,int from, int toStack){
-    //Stack<Character> stack;
-    switch (from){
-      default:
-        findToStack(move,stack1,toStack);
-      case 1:
-        findToStack(move,stack1,toStack);
-        
-      case 2:
-        findToStack(move,stack2,toStack);
-      case 3:
-       findToStack(move,stack3,toStack);
-      case 4:
-       findToStack(move,stack4,toStack);
-      case 5:
-        findToStack(move,stack5,toStack);
-      case 6:
-        findToStack(move,stack6,toStack);
-      case 7:
-       findToStack(move,stack7,toStack);
-      case 8:
-      findToStack(move,stack8,toStack);
-      case 9:
-       findToStack(move,stack9,toStack);
-    }
-    
-  } 
+   public static void moveStacks2(){
 
-   public static void findToStack(int move,Stack<Character>stackfrom,int toStack){
-    //Stack<Character> stack;
-    switch (toStack){
-      default:
-        move(move, stackfrom,stack1);
-      case 1:
-         move( move, stackfrom,stack1);
-      case 2:
-         move( move, stackfrom,stack2);
-      case 3:
-         move( move, stackfrom,stack3);
-      case 4:
-       move( move, stackfrom,stack4);
-      case 5:
-        move( move, stackfrom,stack5);
-      case 6:
-        move( move, stackfrom,stack6);
-      case 7:
-         move( move, stackfrom,stack7);
-      case 8:
-        move( move, stackfrom,stack8);
-      case 9:
-         move( move, stackfrom,stack9);
-    }
-    
-  } 
+    for(int i=0;i< data.size();i+=3){ // Read each instruction
+      int move = data.get(i);
+      int fromStack = data.get(i+1);
+      int toStack = data.get(i+2);
+      
+     // System.out.println(move+" "+fromStack+" "+toStack);
 
-  public static void move(int move,Stack<Character>stackfrom,Stack<Character>stackto){
-     printStack(stackto);
-    for(int j=0; j<move;j++){
-      stackto.push(stackfrom.pop());
+      Stack<Character> stack = new Stack<>();
+      for(int j=0; j<move;j++){
+        stack.push(map.get(fromStack).pop());
+      }
+
+      for(int j=0; j<move;j++){
+        map.get(toStack).push(stack.pop());
+      }
+      
     }
-    printStack(stackto);
   }
-  public static Stack<Character> findStack(int num){
-    //Stack<Character> stack;
-    switch (num){
-      default:
-        return stack1;
-      case 1:
-        return stack1;
-      case 2:
-        return stack2;
-      case 3:
-        return stack3;
-      case 4:
-        return stack4;
-      case 5:
-        return stack5;
-      case 6:
-        return stack6;
-      case 7:
-        return stack7;
-      case 8:
-        return stack8;
-      case 9:
-        return stack9;
+ 
+  public static void createMap(){
+    map.put(1,stack1);
+    map.put(2,stack2);
+    map.put(3,stack3);
+    map.put(4,stack4);
+    map.put(5,stack5);
+    map.put(6,stack6);
+    map.put(7,stack7);
+    map.put(8,stack8);
+    map.put(9,stack9);
+  }
+
+  public static String viewTops(){
+    StringBuilder str = new StringBuilder();
+
+    for(int i=1;i<10;i++){
+      str.append(map.get(i).peek());
     }
-    
-  } 
+    return str.toString();
+  }
   
-  public static void main(String[] args) {
-    
+  
+  public static void main(String[] args) {        
     createStacks();
+    // printStack(stack1);
+    // printStack(stack2);
+    // printStack(stack3);
+    // printStack(stack4);
+    // printStack(stack5);
+    // printStack(stack6);
+    // printStack(stack7);
+    // printStack(stack8);
+    // printStack(stack9);
     readFile("Day5/crates.txt");
-    moveStacks();
+    System.out.println("GEYT");
+    createMap();
+  // moveStacks();
+    moveStacks2();
+    System.out.println(viewTops());
     System.out.println("Hello world!");
   }
 }
