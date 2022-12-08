@@ -4,11 +4,9 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Queue;
-import java.util.LinkedList;
 import java.lang.StringBuilder;
 
-class Main {
+class day5 {
 
   static ArrayList<Integer> data= new ArrayList<>();  //Hold string from text file
   static Stack<Character> stack1 = new Stack<>();
@@ -216,7 +214,6 @@ class Main {
     // printStack(stack8);
     // printStack(stack9);
     readFile("Day5/crates.txt");
-    System.out.println("GEYT");
     createMap();
   // moveStacks();
     moveStacks2();
