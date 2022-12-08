@@ -2,12 +2,13 @@ import java.util.Stack;
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner; // Import the Scanner class to read text files
-
+import java.util.ArrayList;
 
 class Main {
-  
-  static Stack<Character> stack1 = new Stack<>();
-  static Stack<Character> stack2 = new Stack<>();
+
+  static ArrayList<Integer> data= new ArrayList<>();  //Hold string from text file
+  public static Stack<Character> stack1 = new Stack<>();
+  public static Stack<Character> stack2 = new Stack<>();
   static Stack<Character> stack3 = new Stack<>();
   static Stack<Character> stack4 = new Stack<>();
   static Stack<Character> stack5 = new Stack<>();
@@ -15,6 +16,9 @@ class Main {
   static Stack<Character> stack7 = new Stack<>();
   static Stack<Character> stack8 = new Stack<>();
   static Stack<Character> stack9 = new Stack<>();
+
+  static Stack<Character> stackTo;
+  static Stack<Character> stackFrom;
   static char C  = 'C'; static char S = 'S'; static char G = 'G';  static char B = 'B';
   static char V  = 'V'; static char N = 'N'; static char J = 'J';  static char H = 'H';
   static char W  = 'W'; static char M = 'M'; static char T = 'T';  static char Q = 'Q';
@@ -22,6 +26,7 @@ class Main {
   static char D  = 'D';
   
   public static void printStack(Stack<Character> s){
+   //System.out.print(s.getClass());
     while(!s.isEmpty()){
       System.out.print(s.pop()+" ");
     }
@@ -110,21 +115,22 @@ class Main {
       File myObj = new File(fileName);
       Scanner scan = new Scanner(myObj);
 
-      scan.useDelimiter("[-,\\n]");
+     // scan.useDelimiter("[-,\\n]");
       while (scan.hasNextLine()) {   //Read file
-        int num1= Integer.valueOf(scan.next());
-        int num2= Integer.valueOf(scan.next());
-        int num3= Integer.valueOf(scan.next());
-        int num4 = Integer.valueOf(scan.next().trim());
-   
+        String[] strLine = scan.nextLine().split(" ");
+        
+        if(strLine[0].equals("move")){
+          data.add(Integer.parseInt(strLine[1]));
+        }
+         if(strLine[2].equals("from")){
+          data.add(Integer.parseInt(strLine[3]));
+        }
 
-        //System.out.println(num1+ " "+num2);
-     //  System.out.println("num1:"+num1+" "+num2+" "+num3+ " "+ num4);
-        data.add(num1);       //Add str to data array
-        data.add(num2); 
-        data.add(num3); 
-        data.add(num4);
-        count++;
+        if(strLine[4].equals("to")){
+          data.add(Integer.parseInt(strLine[5]));
+        }
+      
+      
       }
     scan.close();
     } catch (FileNotFoundException e) {
@@ -132,12 +138,125 @@ class Main {
       e.printStackTrace();
     }
   }
+
+  public static void moveStacks(){
+
+    for(int i=0;i< data.size();i+=3){ // Read each instruction
+      int move = data.get(i);
+      int fromStack = data.get(i+1);
+      int toStack = data.get(i+2);
+      System.out.println(move+" "+fromStack+" "+toStack);
+
+      findFromStack(move,fromStack,toStack);
+     //  Stack<Character> stackA = stack1;
+     //  //printStack(findStack(fromStack));
+     //  //stackTo = findStack(toStack);
+     // printStack(stackA);
+     // // printStack(stackTo);
+     //  for(int j=0; j<move;j++){
+        
+     //  }
+
+      
+    }
+      
+    
+  }
+
+  public static void findFromStack(int move,int from, int toStack){
+    //Stack<Character> stack;
+    switch (from){
+      default:
+        findToStack(move,stack1,toStack);
+      case 1:
+        findToStack(move,stack1,toStack);
+        
+      case 2:
+        findToStack(move,stack2,toStack);
+      case 3:
+       findToStack(move,stack3,toStack);
+      case 4:
+       findToStack(move,stack4,toStack);
+      case 5:
+        findToStack(move,stack5,toStack);
+      case 6:
+        findToStack(move,stack6,toStack);
+      case 7:
+       findToStack(move,stack7,toStack);
+      case 8:
+      findToStack(move,stack8,toStack);
+      case 9:
+       findToStack(move,stack9,toStack);
+    }
+    
+  } 
+
+   public static void findToStack(int move,Stack<Character>stackfrom,int toStack){
+    //Stack<Character> stack;
+    switch (toStack){
+      default:
+        move(move, stackfrom,stack1);
+      case 1:
+         move( move, stackfrom,stack1);
+      case 2:
+         move( move, stackfrom,stack2);
+      case 3:
+         move( move, stackfrom,stack3);
+      case 4:
+       move( move, stackfrom,stack4);
+      case 5:
+        move( move, stackfrom,stack5);
+      case 6:
+        move( move, stackfrom,stack6);
+      case 7:
+         move( move, stackfrom,stack7);
+      case 8:
+        move( move, stackfrom,stack8);
+      case 9:
+         move( move, stackfrom,stack9);
+    }
+    
+  } 
+
+  public static void move(int move,Stack<Character>stackfrom,Stack<Character>stackto){
+     printStack(stackto);
+    for(int j=0; j<move;j++){
+      stackto.push(stackfrom.pop());
+    }
+    printStack(stackto);
+  }
+  public static Stack<Character> findStack(int num){
+    //Stack<Character> stack;
+    switch (num){
+      default:
+        return stack1;
+      case 1:
+        return stack1;
+      case 2:
+        return stack2;
+      case 3:
+        return stack3;
+      case 4:
+        return stack4;
+      case 5:
+        return stack5;
+      case 6:
+        return stack6;
+      case 7:
+        return stack7;
+      case 8:
+        return stack8;
+      case 9:
+        return stack9;
+    }
+    
+  } 
   
   public static void main(String[] args) {
     
-  createStacks();
-  
-    
+    createStacks();
+    readFile("Day5/crates.txt");
+    moveStacks();
     System.out.println("Hello world!");
   }
 }
