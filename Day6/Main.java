@@ -6,6 +6,7 @@ import java.lang.StringBuilder;
 public class Main{
 
   static ArrayList<String> data = new ArrayList<>();
+  static int repeatIndex=0;
 
   public static void readFile(String fileName){
     try{
@@ -47,16 +48,58 @@ public class Main{
     return -1;
   }
 
-  public static boolean containsRepeat(char[] packet){
-    for(int i=0;i<packet.length;i++){
-      for(int j=i+1;j<packet.length;j++){
-        if (packet[i]== packet[j]){
-          return true;
+  public static int findStart14(char[] letters){
+
+    
+    char[] packet = new char[14];
+    int index = 0;
+    
+    for(int i=0;i<100;i++){
+      if(index < 14){
+        packet[index]= letters[i];
+        index++;
+
+        if(index == 14){
+        
+          if(containsRepeat(packet)){
+             i = i- repeatIndex;
+             index = 0;
+          } else{
+            return i;
+          }
         }
+        
+      } else{
+        index =0;
+      }
+      
+    }
+    return -1;
+  }
+
+  public static boolean containsRepeat(char[] packet){
+    char[] block = new char[14];
+    for(char c : packet){
+      System.out.print(c +" ");
+    }
+    System.out.println();
+
+    for(int i =0;i<packet.length;i++){
+      block[i] = packet[i];
+      for(int j=0;j<i;j++){
+        for(int k=j+1;k<i;k++){
+          if (packet[j]==block[k]){
+            repeatIndex = 14-k;  
+            return true;
+          }
+        }
+        
       }
     }
     return false;
   }
+
+  
   
   public static void main(String[] args) {        
 
@@ -64,7 +107,8 @@ public class Main{
     
     char[] letters = data.get(0).toCharArray();
     System.out.println("Size: "+letters.length);
-    System.out.println(findStart(letters));
+    //System.out.println("Packet4 start: "+findStart(letters));
+    System.out.println("Packet14 start: "+findStart14(letters));
     System.out.println("Hello world!");
   }
 }
