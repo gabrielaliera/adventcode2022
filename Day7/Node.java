@@ -21,6 +21,13 @@ public class Node <E> {
 
   Node(String n){
     this.name=n;
+    this.children = new LinkedList<>();
+  }
+  
+  Node(String n, Node<E> p){
+    this.name=n;
+    this.parent =p;
+    this.children = new LinkedList<>();
   }
 
   public void addChild(String s ){
@@ -76,8 +83,11 @@ public class Node <E> {
   
    public Node<E> getChild(String name){
     Node<E> child=null;
-    for(int i=0; i< children.size();i++){
+    
+     for(int i=0; i< children.size();i++){
       Node<E> curr = children.get(i);
+
+     // System.out.print(curr.getName()+" ");
       if(curr.getName().equals(name)){
         child= curr;
       }
@@ -86,52 +96,15 @@ public class Node <E> {
   }
 
   public void setChild(Node<E> curr){
-    switch(count){
-      case 0:
-        child1 = curr;
-        count++;
-        break;
-      case 1:
-        child2 = curr;
-        count++;
-        break;
-      case 2:
-        child3 = curr;
-        count++;
-        break;
-      case 3:
-        child4 = curr;
-        count++;
-        break;
-      case 4:
-        child5 = curr;
-        count++;
-        break;
-      case 5:
-        child6 = curr;
-        count++;
-        break;
-      case 6:
-        child7 = curr;
-        count++;
-        break;
-      case 7:
-        child8 = curr;
-        count++;
-        break;
-      case 8:
-        child9 = curr;
-        count++;
-        break;
-      case 9:
-        child10 = curr;
-        count++;
-        break;
-    }
+    children.addLast(curr) ;
   }
+  
 
   public Node<E> getParent(){
     return parent;
   }
+  public void setParent(Node<E>p){parent=p;}
+
+  public LinkedList<Node<E>> getChildren(){return children;}
   
 }
