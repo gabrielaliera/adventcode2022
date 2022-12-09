@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.lang.StringBuilder;
-public class Main{
+public class day6{
 
   static ArrayList<String> data = new ArrayList<>();
   static int repeatIndex=0;
