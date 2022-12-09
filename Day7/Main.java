@@ -23,9 +23,14 @@ public class Main{
       System.out.println("File Error");
     }
   }
+
+  public static void createDir(){
+    
+  }
   public static void main(String[] args) {        
 
     readFile("Day7/input.txt");
+    createDir();
     System.out.println("Hello world!");
   }
 }
