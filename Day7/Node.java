@@ -1,7 +1,12 @@
+import java.util.LinkedList;
+
 public class Node <E> {
 
   String name;
   int size;
+  Node<E> parent;
+  LinkedList<Node<E>> children;
+
   Node<E> child1;
   Node<E> child2;
   Node<E> child3;
@@ -20,79 +25,64 @@ public class Node <E> {
 
   public void addChild(String s ){
     Node<E> curr = new Node<>(s);
-    
-    switch(count){
-      case 0:
-        child1 = curr;
-        count++;
-        break;
-      case 1:
-        child2 = curr;
-        count++;
-        break;
-      case 2:
-        child3 = curr;
-        count++;
-        break;
-      case 3:
-        child4 = curr;
-        count++;
-        break;
-      case 4:
-        child5 = curr;
-        count++;
-        break;
-      case 5:
-        child6 = curr;
-        count++;
-        break;
-      case 6:
-        child7 = curr;
-        count++;
-        break;
-      case 7:
-        child8 = curr;
-        count++;
-        break;
-      case 8:
-        child9 = curr;
-        count++;
-        break;
-      case 9:
-        child10 = curr;
-        count++;
-        break;
-    }
+    children.add(curr) ;
+    // switch(count){
+    //   case 0:
+    //     child1 = curr;
+    //     count++;
+    //     break;
+    //   case 1:
+    //     child2 = curr;
+    //     count++;
+    //     break;
+    //   case 2:
+    //     child3 = curr;
+    //     count++;
+    //     break;
+    //   case 3:
+    //     child4 = curr;
+    //     count++;
+    //     break;
+    //   case 4:
+    //     child5 = curr;
+    //     count++;
+    //     break;
+    //   case 5:
+    //     child6 = curr;
+    //     count++;
+    //     break;
+    //   case 6:
+    //     child7 = curr;
+    //     count++;
+    //     break;
+    //   case 7:
+    //     child8 = curr;
+    //     count++;
+    //     break;
+    //   case 8:
+    //     child9 = curr;
+    //     count++;
+    //     break;
+    //   case 9:
+    //     child10 = curr;
+    //     count++;
+    //     break;
+    // }
   }
 
   public void setSize(int num){size = num;}
   public int getSize(){return size;}
+  public String getName(){return name;}
   
-  public Node<E> getChild(int num){
-    switch(num){
-      default :
-        return child1;
-      case 1:
-        return child1;
-      case 2:
-        return child2;
-      case 3:
-       return child3;
-      case 4:
-       return child4;
-      case 5:
-        return child5;
-      case 6:
-        return child6;
-      case 7:
-         return child7;
-      case 8:
-        return child8;
-      case 9:
-         return child9;
-      case 10:
-         return child10;
+   public Node<E> getChild(String name){
+    Node<E> child=null;
+    for(int i=0; i< children.size();i++){
+      Node<E> curr = children.get(i);
+      if(curr.getName().equals(name)){
+        child= curr;
+      }
     }
+   return child;
   }
 
   public void setChild(Node<E> curr){
@@ -139,4 +129,9 @@ public class Node <E> {
         break;
     }
   }
+
+  public Node<E> getParent(){
+    return parent;
+  }
+  
 }
