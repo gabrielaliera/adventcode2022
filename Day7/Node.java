@@ -6,6 +6,7 @@ public class Node <E> {
   int size;
   Node<E> parent;
   LinkedList<Node<E>> children;
+  boolean isDir= false;
 
   Node<E> child1;
   Node<E> child2;
@@ -106,5 +107,8 @@ public class Node <E> {
   public void setParent(Node<E>p){parent=p;}
 
   public LinkedList<Node<E>> getChildren(){return children;}
+
+  public boolean isDirectroy(){return isDir;}
+  public void setIsDirectory(boolean x){isDir=x;}
   
 }

@@ -9,6 +9,7 @@ public class Main{
   static ArrayList<String> data = new ArrayList<>();
   static Node<String> root = new Node<>("/");
   static Node<String> cd = root;
+  static int sum=0;
   
   public static void readFile(String filenName){
     try{
@@ -48,7 +49,7 @@ public class Main{
     
     if(blocks[0].equals("dir")){
      child = new Node<>(blocks[1],cd);
-    
+     child.setIsDirectory(true);
     } else {
       int size = Integer.valueOf(blocks[0]);
       child = new Node<>(blocks[1],cd);
@@ -87,7 +88,7 @@ public class Main{
     }
   }
 
-  public static void makefileSize(Node<String> parent){
+  public static int makefileSize(Node<String> parent){
     LinkedList<Node<String>> children = parent.getChildren();
     int total = 0;
     for(Node<String> child: children){
@@ -95,13 +96,27 @@ public class Main{
          int size = child.getSize();
          total += size;
       } else{
-        makefileSize(child);
+         total += makefileSize(child);
         //recursive find sizze//make change recurives to return filesize
       }
     }
     parent.setSize(total);
+    return total;
   }
 
+  public static void findSum( Node<String> root){
+    for(Node<String> child: root.getChildren()){
+     if(child.isDirectroy()){
+       System.out.println(child.getName()+"true");
+       if(child.getSize()<=100000){
+         sum+=child.getSize();
+       }
+       findSum(child);
+     }
+       //System.out.println(child.getName()+" "+child.getSize());
+    }
+  }
+  
 
   
   public static void main(String[] args) {        
@@ -109,7 +124,12 @@ public class Main{
     readFile("Day7/input.txt");
     createDir();
     makefileSize(root);
-
+  //     System.out.println(root.getSize());
+  // for(Node<String> child: root.getChildren()){
+  //   System.out.println(child.getName()+" "+child.getSize());
+  // }
+    findSum(root);
+    System.out.println(sum);
     System.out.println("Hello world!");
   }
 }
