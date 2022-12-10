@@ -10,6 +10,7 @@ public class Main{
   static Node<String> root = new Node<>("/");
   static Node<String> cd = root;
   static int sum=0;
+  static int smallestDir =Integer.MAX_VALUE;
   
   public static void readFile(String filenName){
     try{
@@ -107,7 +108,7 @@ public class Main{
   public static void findSum( Node<String> root){
     for(Node<String> child: root.getChildren()){
      if(child.isDirectroy()){
-       System.out.println(child.getName()+"true");
+       //System.out.println(child.getName()+"true");
        if(child.getSize()<=100000){
          sum+=child.getSize();
        }
@@ -117,19 +118,40 @@ public class Main{
     }
   }
   
-
+  public static void findSmallest(Node<String> root,int neededSpace){
+    for(Node<String> child: root.getChildren()){
+     if(child.isDirectroy()){
+       
+       if(child.getSize()>=neededSpace){
+         smallestDir = Math.min(smallestDir,child.getSize());
+       }
+       findSmallest(child, neededSpace);
+     }
+ 
+    }
+  }
   
   public static void main(String[] args) {        
 
     readFile("Day7/input.txt");
     createDir();
     makefileSize(root);
-  //     System.out.println(root.getSize());
-  // for(Node<String> child: root.getChildren()){
-  //   System.out.println(child.getName()+" "+child.getSize());
-  // }
+   
+    System.out.println(root.getSize());
+  
+    //Part 1
     findSum(root);
     System.out.println(sum);
+    
+    //Part 2
+    int totalDisk= 70000000;
+    int availableSpace= totalDisk- root.getSize();
+    System.out.println("available: "+availableSpace);
+    int updateSpace= 30000000;
+    int neededSpace = updateSpace-availableSpace;
+    System.out.println("Need to delete: "+neededSpace);
+    findSmallest(root, neededSpace);
+    System.out.println("Smallest directory size: "+smallestDir);
     System.out.println("Hello world!");
   }
 }
