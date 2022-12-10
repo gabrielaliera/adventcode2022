@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Main{
+public class day7{
 
   static ArrayList<String> data = new ArrayList<>();
   static Node<String> root = new Node<>("/");
