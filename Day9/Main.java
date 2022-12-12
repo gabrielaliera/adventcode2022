@@ -32,11 +32,13 @@ public class Main{
 
   public static void readSteps(){
     
-    for(String line: data){
-      String[] instruction = line.split(" ");
+ for(String line: data){
+ //  for(int i=0;i<250;i++){
+ //String line = data.get(i);
+     String[] instruction = line.split(" ");
       String direction = instruction[0];
       int moves = Integer.valueOf(instruction[1]);
-     // System.out.println(direction+" "+ moves);
+     System.out.println(direction+" "+ moves);
       moveHead(direction, moves);
     }
   }
@@ -46,22 +48,26 @@ public class Main{
     int[] previousHead = {row,col};
 
     while(moves> 0){
+      previousHead[0] = row;
+      previousHead[1] = col;
+      
       if(dir.equals("L")){
-       // grid[row][col+moves] = "H";
-        headPosition[1] = col+1;
+        headPosition[1] = --col;
+       // System.out.println(dir);
         
       } else if(dir.equals("R")){
-        //grid[row][col-moves] = "H";
-        headPosition[1] = col-1;
+        headPosition[1] = ++col;
+        //System.out.println(dir+"-");
         
       } else if(dir.equals("U")){
-        //grid[row+moves][col] ="H";
-        headPosition[0] = row+1;
+        headPosition[0] = ++row;
+        //System.out.println(dir);
       } else {
-        //grid[row-moves][col] = "H";
-        headPosition[0] = row+1;
+        headPosition[0] = --row; //move down
+        //System.out.println(dir);
       }
       moves--;
+     // System.out.println(headPosition[0]+ " "+headPosition[1]);
       moveTail(previousHead);
       
     }
@@ -73,32 +79,37 @@ public class Main{
     int tailCol = tailPosition[1];
     int headRow = headPosition[0];
     int headCol = headPosition[1];
-
+ System.out.println("head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
     //if tail is not next too head
     if(!isAdjacent(tailRow,tailCol)){
-      System.out.println("not adj");
+  //    System.out.println("not adj");
+   //   System.out.println("head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
+      
       //move tail to right
-      if(headRow == tailRow && headCol == tailCol + 2){ // 0T 1 2H 
+      if(headRow == tailRow && headCol > tailCol){ // 0T 1 2H 
         tailPosition[1] = tailCol +1;
         System.out.println("moveR");
-      } else if(headRow == tailRow && headCol == tailCol - 2){ //move tail to left 
+      } else if(headRow == tailRow && headCol < tailCol){ //move tail to left 
         tailPosition[1] = tailCol -1;  //0H 1-2T
         System.out.println("moveL");
         
-      } else if(headCol == tailCol && headRow == tailRow - 2){//move tail to up
-        tailPosition[1] = tailCol -1; // 0H 1 2T 
+      } else if(headCol == tailCol && headRow < tailRow){//move tail to up
+        tailPosition[0] = tailRow -1; // 0H 1 2T 
         System.out.println("moveU");
-      } else if (headCol == tailCol && headRow == tailRow + 2){ //move tail to down
-        tailPosition[1] = tailCol +1;// 0T 1 2H 
-        System.out.println("moveD");
+      } else if (headCol == tailCol && headRow > tailRow){ //move tail to down
+        tailPosition[0] = tailRow +1;// 0T 1 2H 
+        System.out.println("moveDown");
+        //System.out.println("moveDown "+"head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
       } else {//Move diagonally
         tailPosition[0] = previousHead[0];
         tailPosition[1] = previousHead[1];
-        System.out.println("moveDiag");
+        System.out.println("moveDiag"+" head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
       }
+      //Add tail postion to map
+    addVisitedTail();
     }
     //Add tail postion to map
-    addVisitedTail();
+    //addVisitedTail();
   }
 
   public static void addVisitedTail(){
@@ -110,25 +121,32 @@ public class Main{
   public static boolean isAdjacent(int tailRow, int tailCol){
     int headRow = headPosition[0];
     int headCol = headPosition[1];
-    
-    //check if tail left of head
-    if(headCol == tailCol+1){
+
+    if(headCol == tailCol && headRow == tailRow){
       return true;
     }
-    //check if tail right of head
-    if(headCol == tailCol-1){
-      return true;
-    }
-    //check if tail is above head 0T 1H 2
-    if(headRow == tailRow +1){
-      return true;
-    }
-    //check if tail is below head   0H 1T 2
-    if(headRow ==  tailRow-1){
-      return true;
+    // //check if tail left of head
+    // if(headCol == tailCol+1){
+    //   return true;
+    // }
+    // //check if tail right of head
+    // if(headCol == tailCol-1){
+    //   return true;
+    // }
+    // //check if tail is above head 0T 1H 2
+    // if(headRow == tailRow +1){
+    //   return true;
+    // }
+    // //check if tail is below head   0H 1T 2
+    // if(headRow ==  tailRow-1){
+    //   return true;
+    // }
+
+    if(Math.abs(headRow-tailRow)> 1 || Math.abs(headCol-tailCol)>1){
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public static void main(String[] args) {        
@@ -138,7 +156,12 @@ public class Main{
     readSteps();
     System.out.println(tailVisits.size());
     //728 too low
-   // System.out.println(tailVisits.entrySet());
+    //694 too low
+    //775 too low
+    //6440 wrong
+    //6267
+    //Answer 6269
+   //System.out.println(tailVisits.entrySet());
     
     System.out.println("\nHello world!");
   }
