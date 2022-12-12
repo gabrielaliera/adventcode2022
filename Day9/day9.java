@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Main{
+public class day9{
 
   static ArrayList<String> data = new ArrayList<>();
   static String[][] grid = new String[50][50];
