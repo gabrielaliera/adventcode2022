@@ -118,14 +118,85 @@ public class Main{
     return above || below || left || right;
   }
 
+  //PART 2
+  public static int part2(){
+    int max = Integer.MIN_VALUE;
+    for(int i=0;i<grid.length;i++){
+      for(int j=0;j<grid[0].length;j++){
+          
+          int score =findScenicScore(i, j, grid[i][j]);
+          max = Math.max(max,score);
+      }
+    }
+    return max;
+  }
+  public static int findScenicScore(int row, int col,int height){
+    
+    int above = scoreAbove(row, col, height);
+    int below = scoreBelow(row, col, height);
+    int left = scoreLeft(row, col, height);
+    int right = scoreRight(row, col, height);
+    
+    return above*below*left*right;
+  }
+  public static int scoreAbove(int row,int col, int height){
+    int score=0;
+    row--; //check row above
+    while(row>= 0){
+      if(grid[row][col]<=height){
+        score++;
+        if(grid[row][col] == height){break;}
+      }
+      row--;
+    }
+    return score;
+  }
+  public static int scoreBelow(int row,int col, int height){
+    int score=0;
+    row++; //check row above
+    while(row < grid.length){
+      if(grid[row][col]<=height){
+        score++;
+        if(grid[row][col] == height){break;}
+      }
+      row++;
+    }
+    return score;
+  }
+  public static int scoreLeft(int row,int col, int height){
+    int score=0;
+    col--; //check row above
+    while(col>= 0){
+      if(grid[row][col]<=height){
+        score++;
+        if(grid[row][col] == height){break;}
+      }
+      col--;
+    }
+    return score;
+  }
+  public static int scoreRight(int row,int col, int height){
+    int score=0;
+    col++; //check row above
+    while(col < grid[0].length){
+      if(grid[row][col]<=height){
+        score++;
+        if(grid[row][col] == height){break;}
+      }
+      col++;
+    }
+    return score;
+  }
+
   public static void main(String[] args) {        
 
     readFile("Day8/grid.txt");
     createMatrix();
-    //printMatrix();
+   // printMatrix();
     isVisible();
     System.out.println(count);
+    System.out.println(part2());
     
-    System.out.println("Hello world!");
+    System.out.println("\nHello world!");
   }
 }
