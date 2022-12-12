@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
-public class Main{
+public class day8{
 
   static ArrayList<String> data = new ArrayList<>();
   static int[][] grid;
