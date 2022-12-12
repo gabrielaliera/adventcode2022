@@ -1,2 +1,3 @@
-# Advent of Code 2022
-My solutions for Advent of Code 2022 https://adventofcode.com/
+# Advent of Code
+My solutions for Advent of Code 2022 https://adventofcode.com
+-2022 => Java
