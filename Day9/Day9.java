@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class day9{
+public class Day9{
 
   static ArrayList<String> data = new ArrayList<>();
   static String[][] grid = new String[50][50];
@@ -32,9 +32,9 @@ public class day9{
 
   public static void readSteps(){
     
- //for(String line: data){
-   for(int i=0;i<25;i++){
-  String line = data.get(i);
+ for(String line: data){
+  // for(int i=0;i<25;i++){
+  //String line = data.get(i);
      String[] instruction = line.split(" ");
       String direction = instruction[0];
       int moves = Integer.valueOf(instruction[1]);
@@ -52,13 +52,13 @@ public class day9{
       previousHead[0] = row;
       previousHead[1] = col;
       
-      if(dir.equals("L")){
+      if(dir.equals("L")){ //move left
         headPosition[1] = --col;
         
-      } else if(dir.equals("R")){
+      } else if(dir.equals("R")){ //move right
         headPosition[1] = ++col;
         
-      } else if(dir.equals("U")){
+      } else if(dir.equals("U")){ //move up
         headPosition[0] = ++row;
       
       } else {
@@ -77,38 +77,48 @@ public class day9{
     int headRow = headPosition[0];
     int headCol = headPosition[1];
  System.out.println("Shead: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
+addVisitedTail();
+    
     //if tail is not next too head
     if(!isAdjacent(tailRow,tailCol)){
      System.out.println("not adj");      
       //move tail to right
       if(headRow == tailRow && headCol > tailCol){ // 0T 1 2H 
         tailPosition[1] = tailCol +1;
+        
         System.out.println("moveR");
+      
       } else if(headRow == tailRow && headCol < tailCol){ //move tail to left 
         tailPosition[1] = tailCol -1;  //0H 1-2T
+      
         System.out.println("moveL");
         
       } else if(headCol == tailCol && headRow > tailRow){//move tail to up
         tailPosition[0] = tailRow + 1; // 0H 1 2T 
-      //  System.out.println("moveU");
+      
+        //  System.out.println("moveU");
         System.out.println("moveU "+"head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
+     
       } else if (headCol == tailCol && headRow < tailRow){ //move tail to down
         tailPosition[0] = tailRow - 1;// 0T 1 2H 
-       // System.out.println("moveDown");
+      
+        // System.out.println("moveDown");
         System.out.println("moveDown "+"head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
+      
       } else {//Move diagonally
         tailPosition[0] = previousHead[0];
         tailPosition[1] = previousHead[1];
+      
         System.out.println("moveDiag"+" head: "+headPosition[0]+ " "+headPosition[1]+ " tail: "+tailPosition[0]+" "+tailPosition[1]);
       }
       //Add tail postion to map
-    addVisitedTail();
+      addVisitedTail();
     }
   }
 
   public static void addVisitedTail(){
     String tail = String.valueOf(tailPosition[0]) + String.valueOf(tailPosition[1]);
-    if (tailVisits.get(tail)== null){
+    if (!tailVisits.containsKey(tail)){
       tailVisits.put(tail,tail);
       System.out.println("add");
     }
@@ -148,7 +158,7 @@ public class day9{
   public static void main(String[] args) {        
 
     readFile("Day9/step.txt");
-   // tailVisits.put("00","00");
+    tailVisits.put("00","00");
     readSteps();
     System.out.println(tailVisits.size());
     //728 too low
