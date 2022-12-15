@@ -14,10 +14,10 @@ noop takes one cycle to complete. It has no other effect.
 public class Main{
   
   static ArrayList<String> data = new ArrayList<>();
-  static Queue<Integer>  scores = new LinkedList<>();
   static Queue<Cycle> cycleQueue = new LinkedList<>();
   static ArrayList<Integer> signalStrengths = new ArrayList<>();
   static HashMap<Integer,Integer> map = new HashMap<>();
+  static int[] sprite = {1,2,3};
   static int X = 1;
   
   public static void readFile(String fileName){
@@ -36,8 +36,6 @@ public class Main{
   }
 
   public static void cycles(){
-   
-    //for(String line : data){
     for(int i=0; i<data.size();i++){
       String line = data.get(i);
       addCycleToQueue(line);
@@ -64,24 +62,37 @@ public class Main{
     while(!cycleQueue.isEmpty()){
       Cycle cycleObj = cycleQueue.peek();
       int untilAdd = cycleObj.getEndCycle();
-      //System.out.println("current: "+currentCycle);
       
+      part2(currentCycle);
       checkCurrentCycleForSum(currentCycle);
       
       if(untilAdd == 1){
-          X += cycleObj.getScore();
-          //System.out.println(cycleObj.getName()+ " " +cycleObj.getScore());
-          cycleQueue.remove();
+        X += cycleObj.getScore();
+        sprite[0] = X;
+        sprite[1] = X+1;
+        sprite[2] = X+2; 
+     
+        cycleQueue.remove();
       } else{
         cycleObj.setEndCycle(cycleObj.getEndCycle()-1);
       }
-      //checkCurrentCycleForSum(currentCycle);
-    
       currentCycle++; 
+      
     }
   }
 
- 
+ public static void part2(int currentCycle){
+   int pixal = currentCycle % 40;
+   if(currentCycle % 40 == 1){
+     System.out.println();
+   }
+    if(pixal == sprite[0]|| pixal == sprite[1] || pixal ==sprite[2]){
+     System.out.print("#");
+   } else {
+     System.out.print(".");
+   }
+   
+ }
 
   public static void checkCurrentCycleForSum(int currentCycle){
     if(currentCycle ==20  || currentCycle ==60 || currentCycle ==100 || currentCycle ==140 || currentCycle ==180 || currentCycle ==220){
@@ -98,15 +109,25 @@ public class Main{
     }
     return total;
   }
+
+  public static void printPixals(){
+    for(int i=1;i<241;i++){
+      if(i%40 == 0 + 1){
+        System.out.println();
+      }
+      System.out.print("#");
+    }
+  }
   
   public static void main(String[] args) {        
 
     readFile("Day10/signal.txt");
     cycles();
     startCycleClock();
-    System.out.println("Sum: "+sumSignals());
+    System.out.println("\nSum: "+sumSignals());
     System.out.println(map.entrySet());
     System.out.println(X);
+    //printPixals();
     System.out.println("\nHello world!");
   }
 }
