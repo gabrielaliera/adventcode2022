@@ -11,7 +11,7 @@ addx V takes two cycles to complete. After two cycles, the X register is increas
 noop takes one cycle to complete. It has no other effect.
 */ 
 
-public class Main{
+public class Day10{
   
   static ArrayList<String> data = new ArrayList<>();
   static Queue<Cycle> cycleQueue = new LinkedList<>();
