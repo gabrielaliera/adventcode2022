@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.HashMap;
 
 /*
 addx V takes two cycles to complete. After two cycles, the X register is increased by the value V. (V can be negative.)
@@ -16,7 +17,9 @@ public class Main{
   static Queue<Integer>  scores = new LinkedList<>();
   static Queue<Cycle> cycleQueue = new LinkedList<>();
   static ArrayList<Integer> signalStrengths = new ArrayList<>();
-  static int X = 0;
+  static HashMap<Integer,Integer> map = new HashMap<>();
+  static int X = 1;
+  
   public static void readFile(String fileName){
     try{
       File myObj = new File(fileName);
@@ -41,54 +44,55 @@ public class Main{
       String line = data.get(i);
       
       if(line.equals("noop")){
-          Cycle cycle = new Cycle(0, i);
+          Cycle cycle = new Cycle(0, 1);
           cycle.setName("noop");
           cycleQueue.add(cycle);
           count++;
       }else {
-          addScoreToQueue(line,i);
+          addCycleToQueue(line,i);
       }
-
-        // if(cycleQueue.peek().getEndCycle() == i){
-        //   X += cycleQueue.peek().getScore();
-        //   cycleQueue.remove();
-        // }
-        // if(i ==20  || i==60 || i==100 || i==140 || i==180 || i==220){
-        //   signalStrengths.add(X*i);
-        // }
     }
     System.out.println("count "+ count);
   }
 
   public static void startCycleClock(){
-    int i = 0;
+    int currentCycle = 1;
     System.out.println(cycleQueue.size());
     while(!cycleQueue.isEmpty()){
+      Cycle cycleObj = cycleQueue.peek();
+      int untilAdd = cycleObj.getEndCycle();
       
-      if(cycleQueue.peek().getEndCycle() == i || cycleQueue.peek().getName().equals("noop")){
-          X += cycleQueue.peek().getScore();
-    //  System.out.println("removed: "+i+" "+ cycleQueue.peek().getScore()+ " " +cycleQueue.peek().getEndCycle());
+      if(untilAdd == 1){
+          X += cycleObj.getScore();
+          //System.out.println("removed: "+i+" "+ cycleQueue.peek().getScore()+ " " +cycleQueue.peek().getEndCycle());
           cycleQueue.remove();
+      } else{
+        cycleObj.setEndCycle(cycleObj.getEndCycle()-1);
       }
-      if(i ==20  || i==60 || i==100 || i==140 || i==180 || i==220){
-        System.out.println(i +" "+ X);
-          signalStrengths.add(X*i);
-      }
+      checkCurrentCycleForSum(currentCycle);
     
-     i++; 
+      currentCycle++; 
     }
   }
 
-  public static void addScoreToQueue(String line, int i){
+  public static void addCycleToQueue(String line, int i){
     String[] instructions = line.split(" ");
     int score = Integer.valueOf(instructions[1]);
     scores.add(score);
 
-    Cycle cycle = new Cycle(score, i+2);
+    Cycle cycle = new Cycle(score, 2);
     cycle.setName("addx");
     cycleQueue.add(cycle);
   }
 
+  public static void checkCurrentCycleForSum(int currentCycle){
+    if(currentCycle ==20  || currentCycle ==60 || currentCycle ==100 || currentCycle ==140 || currentCycle ==180 || currentCycle ==220){
+        System.out.println("Cycle: "+currentCycle  +":"+ X);
+        signalStrengths.add(X*currentCycle);
+        map.put(currentCycle,currentCycle*X);
+      }
+  }
+  
   public static int sumSignals(){
     int total=0;
     for(int signal : signalStrengths){
@@ -102,11 +106,13 @@ public class Main{
     readFile("Day10/signal.txt");
     cycles();
     startCycleClock();
-    System.out.println(sumSignals());
+    System.out.println("Sum: "+sumSignals());
+    System.out.println(map.entrySet());
     //3520 too low
     //7920
     //7680
     //16080
+    //13940
     System.out.println(X);
     System.out.println("\nHello world!");
   }
